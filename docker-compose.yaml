@@ -19,6 +19,19 @@ services:
       - "8000:8000"
     depends_on:
       - db
+  nginx:
+      build: 
+        context: ./web
+        dockerfile: nginx.Dockerfile
+      ports:
+        - "80:80"
+      depends_on:
+        - web
+  logs:
+      image: amir20/dozzle:latest
+      container_name: dozzle
+      volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+      ports: ["9876:8080"]
 
 volumes:
   postgres_data:
