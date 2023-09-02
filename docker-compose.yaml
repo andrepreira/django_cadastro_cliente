@@ -2,19 +2,32 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:14
+    build: 
+      context: ./database
+      dockerfile: Dockerfile.pg
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - ${DB_PORT}:5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - pg_data:/var/lib/postgresql/data/
 
-  web:
-    build: .
+
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: app
+    entrypoint: ["/entrypoint.sh"]
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     depends_on:
@@ -23,10 +36,12 @@ services:
       build: 
         context: ./web
         dockerfile: nginx.Dockerfile
+      env_file:
+        - .env
       ports:
         - "80:80"
       depends_on:
-        - web
+        - app
   logs:
       image: amir20/dozzle:latest
       container_name: dozzle
@@ -34,4 +49,4 @@ services:
       ports: ["9876:8080"]
 
 volumes:
-  postgres_data:
+  pg_data:

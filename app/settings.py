@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+import os
 
 from pathlib import Path
 
@@ -37,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app'
 ]
 
 MIDDLEWARE = [
@@ -75,10 +77,15 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME'),  # database name
+        'USER': os.environ.get('DB_USER'),  # database user
+        'PASSWORD': os.environ.get('DB_PASSWORD'),  # database password
+        'HOST': os.environ.get('DB_HOST'),  # use the service name defined in docker-compose.yaml
+        'PORT': os.environ.get('DB_PORT'),  # default PostgreSQL port
     }
 }
+
 
 
 # Password validation
@@ -122,4 +129,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '134.65.247.39', 'ibfarol.duckdns.org']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '193.123.115.86', 'andrepreira.ddns.net']
