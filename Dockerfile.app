@@ -23,5 +23,8 @@ COPY . .
 # # Collect static files
 # RUN python manage.py collectstatic --noinput
 
+COPY ./entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
 # Run server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
