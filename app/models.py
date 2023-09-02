@@ -8,4 +8,4 @@ class Project(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     link = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    image = models.ImageField(upload_to='static/images/', null=True, blank=True)

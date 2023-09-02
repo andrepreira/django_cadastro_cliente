@@ -9,3 +9,11 @@ def home(request):
         'home.html',
         {'skills': skills, 'projects': projects}
     )
+
+def detail(request, pk):
+    project = Project.objects.get(pk=pk)
+    return render(
+        request,
+        'detail.html',
+        {'project': project}
+    )
