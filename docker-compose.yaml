@@ -3,8 +3,9 @@ version: "3.9"
 services:
   db:
     build: 
-      context: ./database
-      dockerfile: Dockerfile.pg
+      context: .
+      dockerfile: Dockerfile
+      target: pg-stage
     env_file:
       - .env
     environment:
@@ -20,7 +21,8 @@ services:
   app:
     build: 
       context: .
-      dockerfile: Dockerfile.app
+      dockerfile: Dockerfile
+      target: app-stage
     container_name: app
     entrypoint: ["/entrypoint.sh"]
     command: python manage.py runserver 0.0.0.0:8000
@@ -34,8 +36,9 @@ services:
       - db
   nginx:
       build: 
-        context: ./web
-        dockerfile: nginx.Dockerfile
+        context: .
+        dockerfile: Dockerfile
+        target: nginx-stage
       env_file:
         - .env
       ports:
