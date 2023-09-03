@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- deploy.yaml
+
+# Optional: You can specify patches to customize your deployment for different environments
+# patchesStrategicMerge:
+# - patch.yaml
+
+# Optional: You can specify environment variables or config maps
+# configMapGenerator:
+# - name: my-configmap
+#   files:
+#   - configs/app_config.yaml
+
+# Optional: You can specify secrets
+# secretGenerator:
+# - name: my-secret
+#   literals:
+#   - username=myuser
+#   - password=mypass
