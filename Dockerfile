@@ -1,4 +1,4 @@
-FROM python:3.10-buster
+FROM python:3.10-buster AS app-stage
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -23,5 +23,15 @@ COPY . .
 # # Collect static files
 # RUN python manage.py collectstatic --noinput
 
+COPY ./entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
 # Run server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+
+FROM nginx AS nginx-stage
+
+COPY andrepreira.ddns.net.conf /etc/nginx/nginx.conf
+
+FROM postgres:14 As pg-stage
