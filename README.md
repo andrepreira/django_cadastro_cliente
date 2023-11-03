@@ -21,4 +21,4 @@ source .venv/bin/activate
 
 ## Deply on oracle cloud
 
-http://ibfarol.duckdns.org/
+http://andrepreira.duckdns.org/andrepereira/
